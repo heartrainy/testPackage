@@ -7,6 +7,55 @@
     <title>Document</title>
 </head>
 <body>
-    ceshi
+    <div onclick="logClick()">开始</div>
+
+    <div id="logging"></div>
 </body>
+
+<script>
+
+function logClick () {
+    var p = new Promise(function (resolve, reject) {
+        log('开始一个 Promise...');
+        resolve(123);
+    });
+
+    p.then(multiply)
+    .then(add)
+    .then(multiply)
+    .then(add)
+    .then(function (result) {
+        log('最终值: ' + result);
+    });
+
+    log('--------------');
+}
+
+
+var logging = document.getElementById('logging');
+// 输出log到页面:
+function log(s) {
+    var p = document.createElement('p');
+    p.innerHTML = s;
+    logging.appendChild(p);
+}
+
+// 0.5秒后返回input*input的计算结果:
+function multiply(input) {
+    return new Promise(function (resolve, reject) {
+        log('乘法 ' + input + ' x ' + input + '...');
+        setTimeout(resolve, 2500, input * input);
+    });
+}
+
+// 0.5秒后返回input+input的计算结果:
+function add(input) {
+    return new Promise(function (resolve, reject) {
+        log('加法 ' + input + ' + ' + input + '...');
+        setTimeout(resolve, 2500, input + input);
+    });
+}
+
+
+</script>
 </html>
